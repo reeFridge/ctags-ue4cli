@@ -55,3 +55,4 @@ def main(manager, args):
                 SUBCOMMANDS[subcommand]['description']
             ))
         print('\nUse --verbose to get extra output.')
+        print('\nUse --headers-only to scan only .h files (exclude .c,.cpp).')

@@ -16,6 +16,10 @@ def verbose(argv):
     return '--verbose' in argv
 
 
+def headers_only(argv):
+    return '--headers-only' in argv
+
+
 def ctags(tags, basedir, tagtype, argv):
     # ctags options:
     # https://docs.ctags.io/en/latest/man/ctags.1.html
@@ -31,8 +35,12 @@ def ctags(tags, basedir, tagtype, argv):
         '-I UCLASS+',
         '-I UFUNCTION+',
         '-I GENERATED_BODY+',
-        basedir
     ]
+
+    if headers_only(argv):
+        args += ['--exclude=*.c', '--exclude=*.cpp']
+
+    args += [basedir]
 
     if verbose(argv):
         print('running: {}'.format(' '.join(args)))
@@ -59,7 +67,7 @@ def engine_tags(manager, argv):
 
 
 def engine(manager, argv):
-    source = os.path.join(manager.getEngineRoot(), 'Engine')
+    source = os.path.join(manager.getEngineRoot(), 'Engine', 'Source')
     ctags(engine_tags(manager, argv), source, 'engine', argv)
 
 
